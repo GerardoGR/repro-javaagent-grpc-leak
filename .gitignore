@@ -1,0 +1,10 @@
+# Ignore ViM swap files
+*~
+*.swp
+*.swo
+
+# Java
+target/
+opentelemetry-javaagent.jar
+.idea/
+*.hprof

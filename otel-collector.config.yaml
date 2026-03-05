@@ -1,0 +1,27 @@
+service:
+  pipelines:
+    metrics:
+      exporters:
+        - debug
+        - otlp_http/prometheus
+      processors: []
+      receivers:
+        - otlp
+    # traces:
+    #   receivers: [otlp]
+    #   exporters: [debug]
+
+exporters:
+  otlp_http/prometheus:
+    endpoint: http://prometheus:9090
+    metrics_endpoint: http://prometheus:9090/api/v1/otlp/v1/metrics
+  debug:
+    # verbosity: detailed
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318

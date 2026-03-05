@@ -1,0 +1,37 @@
+networks:
+  default:
+    name: repro-javaagent-grpc-leak
+    driver: bridge
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.listen-address=0.0.0.0:9090
+      - --web.enable-otlp-receiver
+      - --enable-feature=exemplar-storage
+    ports:
+      - "9090:9090"
+
+  otel-collector:
+    image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.145.0
+    container_name: otel-collector
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    restart: unless-stopped
+    command: [ "--config=/etc/otel-collector/config.yaml" ]
+    user: 0:0
+    volumes:
+      - ./otel-collector.config.yaml:/etc/otel-collector/config.yaml
+    ports:
+      - 4317:4317
+      - 4318:4318
+    environment:
+      - OTEL_COLLECTOR_HOST=otel-collector
+      - OTEL_COLLECTOR_PORT_GRPC=4317
+      - OTEL_COLLECTOR_PORT_HTTP=4318
+      - GOMEMLIMIT=160MiB
