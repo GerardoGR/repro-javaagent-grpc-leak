@@ -1,3 +1,6 @@
+# MacOS
+.DS_STORE
+
 # Ignore ViM swap files
 *~
 *.swp
@@ -7,4 +10,4 @@
 target/
 opentelemetry-javaagent.jar
 .idea/
-*.hprof
+heapdump*

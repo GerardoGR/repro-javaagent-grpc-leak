@@ -22,3 +22,11 @@ SERVER_PORT=8080 k6 run k6.load-test.js
 ## Prometheus
 
 Navigate to [Prometheus to check the Heap memory](http://localhost:9090/query?g0.expr=jvm_memory_used_bytes%7Bjvm_memory_pool_name%3D%22G1+Old+Gen%22%2C+jvm_memory_type%3D%22heap%22%7D&g0.show_tree=0&g0.tab=graph&g0.range_input=15m&g0.res_type=auto&g0.res_density=medium&g0.display_mode=lines&g0.show_exemplars=0).
+
+## Results
+
+* JVM G1 Old Gen memory increasing until java.lang.OutOfMemoryError
+![G1 Old Gen OutOfMemoryError](./img/G1-Old-Gen-out-of-memory.png "G1 Old Gen OutOfMemoryError")
+
+* Leak suspect taken from heapdump.hprof
+![Leak suspect](./img/leak-suspect.png "Leak suspect")
